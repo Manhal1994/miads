@@ -279,6 +279,15 @@ class MockLocalDataSource extends _i1.Mock implements _i10.LocalDataSource {
   }
 
   @override
+  _i6.Future<void> saveToken(String? token) => (super.noSuchMethod(
+        Invocation.method(
+          #saveToken,
+          [token],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
   _i6.Future<List<_i8.TaskModel>> getTasks() => (super.noSuchMethod(
         Invocation.method(
           #getTasks,

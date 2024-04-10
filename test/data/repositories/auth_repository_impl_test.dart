@@ -12,10 +12,13 @@ void main() {
 
   late AuthRepositoryImpl authRepositoryImpl ;
   late MockRemoteDataSource mockRemoteDataSource;
+  late MockLocalDataSource mockLocalDataSource;
+
 
   setUp(() {
     mockRemoteDataSource = MockRemoteDataSource();
-    authRepositoryImpl = AuthRepositoryImpl(mockRemoteDataSource);
+    mockLocalDataSource = MockLocalDataSource();
+    authRepositoryImpl = AuthRepositoryImpl(mockRemoteDataSource,mockLocalDataSource);
   });
   const userName = "Mhjj7gggg";
   const pass = "123456";
