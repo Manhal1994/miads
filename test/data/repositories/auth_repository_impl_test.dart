@@ -10,7 +10,7 @@ import '../../generated_test_dependency_test.mocks.dart';
 
 void main() {
 
-  late AuthRepositoryImpl authRepositoryImpl ;
+  late AuthRepositoryImpl authRepositoryImpl;
   late MockRemoteDataSource mockRemoteDataSource;
   late MockLocalDataSource mockLocalDataSource;
 
