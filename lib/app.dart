@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maids/data/local/local_data_source.dart';
 import 'package:maids/presntation/add_edit_task/bloc/add_task_bloc.dart';
 import 'package:maids/presntation/authenication/bloc/login/login_bloc.dart';
 import 'package:maids/presntation/authenication/bloc/validate/validate_bloc.dart';
@@ -34,7 +35,9 @@ class App extends StatelessWidget {
           home: ScreenUtilInit(
               designSize: const Size(430, 932),
               builder: (context, child) {
-                return const TasksPage();
+                return sl<LocalDataSource>().getToken() != null
+                    ? const TasksPage()
+                    : const LoginPage();
               })),
     );
   }

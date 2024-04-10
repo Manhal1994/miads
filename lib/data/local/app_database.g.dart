@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `tasks` (`todo` TEXT NOT NULL, `id` INTEGER, `me` INTEGER, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `tasks` (`todo` TEXT NOT NULL, `id` INTEGER, `me` INTEGER, `completed` INTEGER, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -110,7 +110,9 @@ class _$TaskDao extends TaskDao {
             (TaskModel item) => <String, Object?>{
                   'todo': item.todo,
                   'id': item.id,
-                  'me': item.me == null ? null : (item.me! ? 1 : 0)
+                  'me': item.me == null ? null : (item.me! ? 1 : 0),
+                  'completed':
+                      item.completed == null ? null : (item.completed! ? 1 : 0)
                 }),
         _taskModelUpdateAdapter = UpdateAdapter(
             database,
@@ -119,7 +121,9 @@ class _$TaskDao extends TaskDao {
             (TaskModel item) => <String, Object?>{
                   'todo': item.todo,
                   'id': item.id,
-                  'me': item.me == null ? null : (item.me! ? 1 : 0)
+                  'me': item.me == null ? null : (item.me! ? 1 : 0),
+                  'completed':
+                      item.completed == null ? null : (item.completed! ? 1 : 0)
                 }),
         _taskModelDeletionAdapter = DeletionAdapter(
             database,
@@ -128,7 +132,9 @@ class _$TaskDao extends TaskDao {
             (TaskModel item) => <String, Object?>{
                   'todo': item.todo,
                   'id': item.id,
-                  'me': item.me == null ? null : (item.me! ? 1 : 0)
+                  'me': item.me == null ? null : (item.me! ? 1 : 0),
+                  'completed':
+                      item.completed == null ? null : (item.completed! ? 1 : 0)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -149,7 +155,10 @@ class _$TaskDao extends TaskDao {
         mapper: (Map<String, Object?> row) => TaskModel(
             todo: row['todo'] as String,
             id: row['id'] as int?,
-            me: row['me'] == null ? null : (row['me'] as int) != 0));
+            me: row['me'] == null ? null : (row['me'] as int) != 0,
+            completed: row['completed'] == null
+                ? null
+                : (row['completed'] as int) != 0));
   }
 
   @override
@@ -158,7 +167,10 @@ class _$TaskDao extends TaskDao {
         mapper: (Map<String, Object?> row) => TaskModel(
             todo: row['todo'] as String,
             id: row['id'] as int?,
-            me: row['me'] == null ? null : (row['me'] as int) != 0),
+            me: row['me'] == null ? null : (row['me'] as int) != 0,
+            completed: row['completed'] == null
+                ? null
+                : (row['completed'] as int) != 0),
         arguments: [me ? 1 : 0]);
   }
 

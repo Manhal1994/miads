@@ -12,7 +12,12 @@ class AddEditTaskPage extends StatefulWidget {
   final Function(TaskModel)? onAdd;
   final Function(TaskModel)? onUpdate;
 
-  const AddEditTaskPage({super.key, required this.pageAction, this.taskModel, this.onAdd, this.onUpdate});
+  const AddEditTaskPage(
+      {super.key,
+      required this.pageAction,
+      this.taskModel,
+      this.onAdd,
+      this.onUpdate});
 
   @override
   State<AddEditTaskPage> createState() => _AddEditTaskPageState();
@@ -35,10 +40,10 @@ class _AddEditTaskPageState extends State<AddEditTaskPage> {
         floatingActionButton: BlocConsumer<EditTaskBloc, EditTaskState>(
           listener: (context, state) {
             if (state is AddTaskSuccess) {
-              if(widget.pageAction == PageAction.add) {
+              if (widget.pageAction == PageAction.add) {
                 widget.onAdd!(state.taskModel);
               }
-              if(widget.pageAction == PageAction.edit) {
+              if (widget.pageAction == PageAction.edit) {
                 widget.onUpdate!(state.taskModel);
               }
               Navigator.pop(context);
@@ -51,7 +56,7 @@ class _AddEditTaskPageState extends State<AddEditTaskPage> {
             if (state is AddTaskLoading) {
               return FloatingActionButton(
                 onPressed: null,
-                backgroundColor: Colors.black.withOpacity(0.5),
+                backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
                 child: const Icon(
                   Icons.save,
                   color: Colors.white,
@@ -65,10 +70,14 @@ class _AddEditTaskPageState extends State<AddEditTaskPage> {
                         CreateTask(name: todoEditingController.text.trim()));
                   } else {
                     BlocProvider.of<EditTaskBloc>(context).add(UpdateTask(
-                        taskModel: TaskModel(id: widget.taskModel!.id, todo: todoEditingController.text.trim(), me: widget.taskModel?.me??false)));
+                        taskModel: TaskModel(
+                            id: widget.taskModel!.id,
+                            todo: todoEditingController.text.trim(),
+                            completed: widget.taskModel?.completed ?? false,
+                            me: widget.taskModel?.me ?? false)));
                   }
                 },
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.lightBlueAccent,
                 child: const Icon(
                   Icons.save,
                   color: Colors.white,
@@ -83,7 +92,9 @@ class _AddEditTaskPageState extends State<AddEditTaskPage> {
             child: Column(
               children: [
                 Text(
-                widget.pageAction == PageAction.add?  "Add Task" :"Edit Task",
+                  widget.pageAction == PageAction.add
+                      ? "Add Task"
+                      : "Edit Task",
                   style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 32.sp),
                 ),

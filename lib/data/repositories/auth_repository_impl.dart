@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:maids/data/local/local_data_source.dart';
 import 'package:maids/data/remote/remote_data_source.dart';
 import 'package:maids/domain/repositories/auth_repository.dart';
 import '../remote/dto/login_response.dart';
 
 class AuthRepositoryImpl extends AuthRepository{
   final RemoteDataSource _remoteDataSource;
+  final LocalDataSource _localDataSource;
 
-  AuthRepositoryImpl(this._remoteDataSource);
+
+  AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
   Future<LoginResponse> login({required String username, required String pass}) async{
@@ -14,7 +16,13 @@ class AuthRepositoryImpl extends AuthRepository{
       "username": username,
       "password": pass
     });
-    return LoginResponse.fromJson(res);
+
+    final loginResponse = LoginResponse.fromJson(res);
+    if(loginResponse.token!=null){
+      _localDataSource.saveToken(loginResponse.token!);
+    }
+
+    return loginResponse;
   }
 
 }

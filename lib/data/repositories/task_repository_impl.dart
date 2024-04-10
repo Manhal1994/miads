@@ -18,7 +18,7 @@ class TaskRepositoryImpl extends TaskRepository {
         .post(endpoint: "/products/add", data: {"title": todo});
     // Save to database
     int id = DateTime.now().millisecondsSinceEpoch;
-    final taskdb = TaskModel(todo: todo, id: id, me: true);
+    final taskdb = TaskModel(todo: todo, id: id, me: true, completed: false);
     await _localDatSource.insertTask(taskdb);
     if(me) {
       resJson["id"] = id;
@@ -47,7 +47,7 @@ class TaskRepositoryImpl extends TaskRepository {
       // Get tasks from database that i have inserted and put them on the top for the first page
       if (skip == 0) {
         final myTasks = await _localDatSource.getMyTasks(true);
-        page.items.insertAll(0, myTasks);
+        page.items.insertAll(0, myTasks.reversed);
       }
 
       return page;
@@ -72,7 +72,7 @@ class TaskRepositoryImpl extends TaskRepository {
     }
     BasicResponse addTaskResponse = BasicResponse.fromJson(resJson);
     await _localDatSource.updateTask(
-        TaskModel(todo: addTaskResponse.todo!, id: taskModel.id, me: true));
+        TaskModel(todo: addTaskResponse.todo!, id: taskModel.id, me: true, completed: taskModel.completed));
     return addTaskResponse;
   }
 

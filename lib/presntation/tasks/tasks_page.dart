@@ -9,6 +9,7 @@ import 'package:maids/presntation/tasks/bloc/delete_task/delete_task_bloc.dart';
 import 'package:maids/presntation/tasks/widgets/task_item.dart';
 import '../../core/enum/page_action.dart';
 import '../../data/models/task.dart';
+import '../add_edit_task/bloc/add_task_bloc.dart';
 import 'bloc/get_tasks/get_tasks_bloc.dart';
 
 class TasksPage extends StatefulWidget {
@@ -81,6 +82,16 @@ class _TasksPageState extends State<TasksPage> {
                                   }
                                 },
                                 child: TaskItem(
+                                  onCheck: (value){
+                                    item.completed = value;
+                                    _pagingController.notifyListeners();
+                                    BlocProvider.of<EditTaskBloc>(context).add(UpdateTask(
+                                        taskModel: TaskModel(
+                                            id: item.id,
+                                            completed: value,
+                                            todo: item.todo,
+                                            me: item.me??false)));
+                                  },
                                     onTap: () {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
@@ -88,6 +99,7 @@ class _TasksPageState extends State<TasksPage> {
                                               pageAction: PageAction.edit,
                                               taskModel: item,
                                               onUpdate: (taskModel){
+                                                debugPrint(taskModel.completed.toString());
                                                 _pagingController.itemList![index] = taskModel;
                                                 _pagingController.notifyListeners();
                                               },

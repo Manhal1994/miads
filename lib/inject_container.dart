@@ -17,6 +17,7 @@ import 'package:maids/presntation/authenication/bloc/validate/validate_bloc.dart
 import 'package:maids/presntation/tasks/bloc/delete_task/delete_task_bloc.dart';
 import 'package:maids/presntation/tasks/bloc/get_tasks/get_tasks_bloc.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'core/constants.dart';
 import 'data/local/app_database.dart';
 import 'data/remote/dio_remote_data_source_impl.dart';
@@ -37,16 +38,19 @@ Future<void> initializeDependencies() async {
 
   // data source
   sl.registerLazySingleton<RemoteDataSource>(() => DioRemoteDataSourceImpl(sl()));
-  sl.registerLazySingleton<LocalDataSource>(() => LocalDatabaseImpl(sl()));
+  sl.registerLazySingleton<LocalDataSource>(() => LocalDatabaseImpl(sl(), sl()));
 
 
   // Repository
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl(), sl()));
   sl.registerLazySingleton<TaskRepository>(() => TaskRepositoryImpl(sl(), sl()));
 
   //database
   final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
   sl.registerSingleton<AppDatabase>(database);
+
+  final prefs = await SharedPreferences.getInstance();
+  sl.registerLazySingleton<SharedPreferences>(() => prefs);
 
 
   // Use cases

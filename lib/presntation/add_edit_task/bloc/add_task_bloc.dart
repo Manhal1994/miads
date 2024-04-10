@@ -24,7 +24,7 @@ class EditTaskBloc extends Bloc<EditTaskEvent, EditTaskState> {
         try {
           if(AddTaskValidator(todo: event.name).validate()) {
             final res = await _createTaskUseCase.call(todo: event.name);
-            emit(AddTaskSuccess(TaskModel(todo: res.todo!, id: res.id, me: true)));
+            emit(AddTaskSuccess(TaskModel(todo: res.todo!, id: res.id, me: true, completed: false)));
           }
           else {
             throw AppError(message: "Task desceiption schould contain 3 characters at lease");
@@ -43,7 +43,7 @@ class EditTaskBloc extends Bloc<EditTaskEvent, EditTaskState> {
           if(AddTaskValidator(todo: event.taskModel.todo).validate()) {
             final res = await _updateTaskUseCase.call(
                 taskModel: event.taskModel);
-            emit(AddTaskSuccess(TaskModel(id: event.taskModel.id, todo: res.todo!)));
+            emit(AddTaskSuccess(TaskModel(id: event.taskModel.id, todo: res.todo!, me:event.taskModel.me, completed: event.taskModel.completed)));
           }
           else {
             throw AppError(message: "Task desceiption schould contain 3 characters at lease");

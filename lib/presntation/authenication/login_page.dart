@@ -39,12 +39,17 @@ class _LoginPageState extends State<LoginPage> {
                     "(Please sign in to this app so you can Create, Update, Delete your daily tasks)",
                     style: TextStyle(color: Colors.grey),
                     textAlign: TextAlign.center,
-                  )
+                  ),
+                  SizedBox(height: 40.h,),
+                  const Text("Exp\n Usename: kminchelle\nPassword: 0lelplR",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey,),),
                 ],
               ),
               Form(
                   child: Column(
                     children: [
+
                       TextField(
                         controller: usernameController,
                         onChanged: (text){
