@@ -17,6 +17,7 @@ Flutter project run on  3.3.10 flutter version
 
 - Apk for the project along side with video can be found in /demo folder
 # Set up
+- run **flutter pub get** to install dependencies
 - for run this project from version controller. this project require flutter version 3.3.10.
 - run command  **flutter pub run build_runner build**
   to generate database and test dependency files.
