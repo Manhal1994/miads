@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:maids/core/error/app_error.dart';
 import 'package:maids/data/local/local_data_source.dart';
 import 'package:maids/data/models/page_data.dart';
 import 'package:maids/data/models/task.dart';
@@ -51,10 +52,12 @@ class TaskRepositoryImpl extends TaskRepository {
       }
 
       return page;
-    } catch (e, t) {
+    }  on AppError catch (e, t) {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: t);
-      throw Exception(e.toString());
+      final tasks = await _localDatSource.getTasks();
+      final page = PageData<TaskModel>(total:tasks.length, skip: 0, limit: 10, items: tasks );
+      return page;
     }
   }
 

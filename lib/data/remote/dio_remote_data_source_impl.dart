@@ -23,41 +23,24 @@ class DioRemoteDataSourceImpl extends RemoteDataSource{
       );
       return response.data;
 
-    } on DioError catch (e) {
-      if(e.type == DioErrorType.response) {
-        return BaseResModel(status: e.response?.statusCode ?? 400,
-            message: "User or email incorrect");
-      }
-      else if(e.type == DioErrorType.connectTimeout|| e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
-        return BaseResModel(status: e.response?.statusCode ?? 400,
-            message: "Network Failure");
-      }
-      else {
-        return BaseResModel(status: e.response?.statusCode ?? 400,
-            message: "Something went wrong");
-      }
+    }
+    on Exception catch(e, t){
+    debugPrint(e.toString());
+    debugPrintStack(stackTrace: t);
+    handleException(e);
     }
   }
 
   @override
   Future<dynamic> get({required String endpoint, String? token, params}) async {
-   final res = await _dio.get(endpoint,queryParameters: params);
    try {
+     final res = await _dio.get(endpoint,queryParameters: params);
      return res.data;
    }
-   on DioError catch (e) {
-     if(e.type == DioErrorType.response) {
-       return BaseResModel(status: e.response?.statusCode ?? 400,
-           message: "User or email incorrect");
-     }
-     else if(e.type == DioErrorType.connectTimeout|| e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
-       return BaseResModel(status: e.response?.statusCode ?? 400,
-           message: "Network Failure");
-     }
-     else {
-       return BaseResModel(status: e.response?.statusCode ?? 400,
-           message: "Something went wrong");
-     }
+   on Exception catch(e, t){
+     debugPrint(e.toString());
+     debugPrintStack(stackTrace: t);
+     handleException(e);
    }
   }
 
