@@ -13,6 +13,7 @@ import 'package:maids/data/remote/dto/login_response.dart' as _i2;
 import 'package:maids/data/remote/remote_data_source.dart' as _i9;
 import 'package:maids/domain/repositories/auth_repository.dart' as _i5;
 import 'package:maids/domain/repositories/task_repository.dart' as _i7;
+import 'package:maids/domain/usecases/login_use_case.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -330,4 +331,40 @@ class MockLocalDataSource extends _i1.Mock implements _i10.LocalDataSource {
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
+}
+
+/// A class which mocks [LoginUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLoginUseCase extends _i1.Mock implements _i11.LoginUseCase {
+  MockLoginUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<_i2.LoginResponse> call({
+    required String? username,
+    required String? pass,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [],
+          {
+            #username: username,
+            #pass: pass,
+          },
+        ),
+        returnValue: _i6.Future<_i2.LoginResponse>.value(_FakeLoginResponse_0(
+          this,
+          Invocation.method(
+            #call,
+            [],
+            {
+              #username: username,
+              #pass: pass,
+            },
+          ),
+        )),
+      ) as _i6.Future<_i2.LoginResponse>);
 }
